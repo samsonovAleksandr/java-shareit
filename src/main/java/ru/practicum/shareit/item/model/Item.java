@@ -5,20 +5,23 @@ import lombok.Data;
 import ru.practicum.shareit.request.ItemRequest;
 import ru.practicum.shareit.user.User;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 @Data
 public class Item {
 
-    long id;
+    int id;
+    @NotBlank
     String name;
-
+    @NotBlank
     String description;
-
-    boolean available;
+    @NotNull
+    Boolean available;
 
     User owner;
 
     ItemRequest request;
-
-
 
 }
