@@ -1,22 +1,27 @@
-package ru.practicum.shareit.item;
+package ru.practicum.shareit.item.service;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.user.service.UserService;
+import ru.practicum.shareit.user.service.UserServiceImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 @Service
-public class ItemService {
+public class ItemServiceImpl implements ItemService{
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
-    public ItemService(UserService userService) {
-        this.userService = userService;
+    private final ItemMapper itemMapper;
+
+    public ItemServiceImpl(UserServiceImpl userServiceImpl, ItemMapper itemMapper) {
+        this.userServiceImpl = userServiceImpl;
+        this.itemMapper = itemMapper;
     }
 
     private int i = 0;
@@ -27,17 +32,16 @@ public class ItemService {
         return ++i;
     }
 
-    public Item postItem(Item item, int id) {
-        if (userService.getUserId(id) != null) {
-            item.setOwner(userService.getUserId(id));
+    public ItemDto postItem(Item item, int id) {
+        if (userServiceImpl.users.get(id) != null) {
+            item.setOwner(userServiceImpl.users.get(id));
             item.setId(newId());
             items.put(item.getId(), item);
-            return item;
+            return itemMapper.toItemDto(items.get(item.getId()));
         } else {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND);
         }
-
     }
 
     public Item patchItem(int idUser, int itemId, Item item) {

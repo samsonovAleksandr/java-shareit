@@ -1,11 +1,11 @@
 package ru.practicum.shareit.item;
 
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.item.service.ItemService;
 
 import javax.validation.Valid;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 
 @RestController
@@ -20,8 +20,8 @@ public class ItemController {
     }
 
     @PostMapping
-    public Item postItem(@RequestBody @Valid Item item,
-                         @RequestHeader("X-Sharer-User-Id") int id) {
+    public ItemDto postItem(@RequestBody @Valid Item item,
+                            @RequestHeader("X-Sharer-User-Id") int id) {
         return itemService.postItem(item, id);
     }
 
