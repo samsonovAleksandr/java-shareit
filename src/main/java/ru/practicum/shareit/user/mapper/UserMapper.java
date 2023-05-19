@@ -9,8 +9,8 @@ import ru.practicum.shareit.user.dto.UserDto;
 @AllArgsConstructor
 public class UserMapper {
 
-    public UserDto toUser (User user) {
-        return new UserDto (
+    public UserDto toUser(User user) {
+        return new UserDto(
                 user.getId(),
                 user.getName(),
                 user.getEmail()

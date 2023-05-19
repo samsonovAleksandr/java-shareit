@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private int i = 0;
-   public HashMap<Integer, User> users = new HashMap<>();
+    public HashMap<Integer, User> users = new HashMap<>();
 
     private int newId() {
         return ++i;
@@ -51,8 +51,8 @@ public class UserServiceImpl implements UserService{
     }
 
     public UserDto updateUser(User user, int id) {
-        for (User us : users.values()){
-            if (us.getEmail().equals(user.getEmail()) && us.getId() != id){
+        for (User us : users.values()) {
+            if (us.getEmail().equals(user.getEmail()) && us.getId() != id) {
                 throw new ResponseStatusException(
                         HttpStatus.CONFLICT);
             }

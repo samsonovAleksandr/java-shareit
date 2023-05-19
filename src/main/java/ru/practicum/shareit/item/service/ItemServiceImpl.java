@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service
-public class ItemServiceImpl implements ItemService{
+public class ItemServiceImpl implements ItemService {
 
     private final UserServiceImpl userServiceImpl;
 
