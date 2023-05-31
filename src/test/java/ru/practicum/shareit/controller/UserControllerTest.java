@@ -49,7 +49,7 @@ class UserControllerTest {
                 .name("Clown")
                 .email("clown@baza.ru")
                 .build();
-        Assertions.assertThatThrownBy(() -> userService.updateUser(user, user.getId()));
+        Assertions.assertThatThrownBy(() -> userService.updateUser(user, (int) user.getId()));
     }
 
     @Test

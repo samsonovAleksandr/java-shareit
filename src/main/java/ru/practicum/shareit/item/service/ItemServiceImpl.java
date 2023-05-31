@@ -15,15 +15,15 @@ public class ItemServiceImpl implements ItemService {
 
     private final UserService userService;
 
-    private int i = 0;
+    private long i = 0;
 
-    private final HashMap<Integer, Item> items = new HashMap<Integer, Item>();
+    private final HashMap<Long, Item> items = new HashMap<Long, Item>();
 
     public ItemServiceImpl(UserService userService) {
         this.userService = userService;
     }
 
-    private int newId() {
+    private long newId() {
         return ++i;
     }
 
