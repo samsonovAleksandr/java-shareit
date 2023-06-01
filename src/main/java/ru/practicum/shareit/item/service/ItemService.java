@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface ItemService {
 
-    Item postItem(Item item, int id);
+    Item postItem(Item item, long id);
 
-    Item patchItem(int idUser, int itemId, Item item);
+    Item patchItem(long idUser, long itemId, Item item);
 
-    Item getItem(int id);
+    Item getItem(long id);
 
-    List<Item> getItemOwner(int id);
+    List<Item> getItemOwner(long id);
 
     List<Item> searchItem(String text);
 }
