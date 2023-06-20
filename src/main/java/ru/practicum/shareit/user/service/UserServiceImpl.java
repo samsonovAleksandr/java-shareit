@@ -3,6 +3,7 @@ package ru.practicum.shareit.user.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.repository.UserEntityRepository;
@@ -39,6 +40,7 @@ public class UserServiceImpl implements UserService {
         return new ArrayList<>(userEntityRepository.findAll());
     }
 
+    @Transactional
     public User updateUser(User user, long id) {
         User user1 = userEntityRepository.getReferenceById(id);
         if (user.getEmail() != null) user1.setEmail(user.getEmail());

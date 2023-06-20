@@ -78,6 +78,7 @@ public class ItemServiceImpl implements ItemService {
         return commentRepository.save(comment);
     }
 
+    @Transactional
     public Item patchItem(long idUser, long itemId, Item item) {
         Item item1 = repository.getReferenceById(itemId);
         if (item1.getOwner().getId() == idUser) {
@@ -100,6 +101,7 @@ public class ItemServiceImpl implements ItemService {
         return itemMapper.toItemResponseDto(item, booking, comment);
     }
 
+    @Transactional
     public List<ItemDtoCommentResponse> getItemOwner(long id) {
         User user = userService.getUserId(id);
         List<Item> itemList = repository.findAllByOwnerOrderById(user);
