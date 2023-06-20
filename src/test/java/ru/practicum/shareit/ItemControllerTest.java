@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.user.User;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -28,7 +27,6 @@ public class ItemControllerTest {
 
     private final ObjectMapper objectMapper;
 
-    private final ItemService itemService;
     private User user;
 
     @BeforeEach

@@ -30,7 +30,7 @@ public class UserControllerTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        User user = new User(1L, "user", "user@user.com");
+        User user = new User(1, "user", "user@user.com");
         String jsonUser = objectMapper.writeValueAsString(user);
 
         mockMvc.perform(post("/users")
@@ -52,7 +52,7 @@ public class UserControllerTest {
 
     @Test
     public void shouldAdUserPostWhenFailName() throws Exception {
-        User user = new User(2L, "", "user@user.com");
+        User user = new User(2, "", "user@user.com");
         String jsonUser = objectMapper.writeValueAsString(user);
 
         mockMvc.perform(post("/users")
@@ -64,7 +64,7 @@ public class UserControllerTest {
 
     @Test
     public void shouldAdUserPostWhenFailEmail() throws Exception {
-        User user = new User(2L, "user", "");
+        User user = new User(2, "user", "");
         String jsonUser = objectMapper.writeValueAsString(user);
 
         mockMvc.perform(post("/users")
@@ -76,7 +76,7 @@ public class UserControllerTest {
 
     @Test
     public void shouldUpdatePatchUserWhenStatus200() throws Exception {
-        User user = new User(1L, "update", "update@user.com");
+        User user = new User(1, "update", "update@user.com");
         String jsonUser = objectMapper.writeValueAsString(user);
 
         mockMvc.perform(patch("/users/1")
@@ -113,7 +113,7 @@ public class UserControllerTest {
 
     @Test
     public void shouldDeleteUser() throws Exception {
-        User user = new User(2L, "userNew", "userNew@userNew.com");
+        User user = new User(2, "userNew", "userNew@userNew.com");
         String jsonUser = objectMapper.writeValueAsString(user);
 
         mockMvc.perform(post("/users")
