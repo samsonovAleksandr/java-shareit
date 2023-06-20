@@ -22,15 +22,15 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    @NotBlank
-    String name;
-    @NotBlank
-    String description;
-    @NotNull
-    Boolean available;
+    @NotBlank String name;
+    @NotBlank String description;
+    @NotNull Boolean available;
     @ManyToOne
     User owner;
     @ManyToOne
     ItemRequest request;
 
+    public Item(long id, String name, String description, User owner, Boolean available) {
+
+    }
 }
