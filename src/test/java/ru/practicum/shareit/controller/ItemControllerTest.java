@@ -50,7 +50,7 @@ public class ItemControllerTest {
                 .request(null)
                 .build();
         itemService.patchItem(1, 1, item1);
-        Assertions.assertEquals(false, itemService.getItem(1).getAvailable());
+        Assertions.assertEquals(false, itemService.getItem(1, 1).getAvailable());
         Item item2 = Item.builder()
                 .name("Drel")
                 .description("dl9 doma")
@@ -59,8 +59,8 @@ public class ItemControllerTest {
                 .request(null)
                 .build();
         itemService.patchItem(1, 1, item2);
-        Assertions.assertEquals(true, itemService.getItem(1).getAvailable());
-        Assertions.assertEquals("Drel", itemService.getItem(1).getName());
+        Assertions.assertEquals(true, itemService.getItem(1, 1).getAvailable());
+        Assertions.assertEquals("Drel", itemService.getItem(1, 1).getName());
     }
 
     @Test

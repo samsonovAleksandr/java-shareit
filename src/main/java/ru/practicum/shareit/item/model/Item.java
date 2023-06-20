@@ -20,8 +20,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class Item {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "player_generator")
-    @SequenceGenerator(name = "player_generator", sequenceName = "player_seq", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     @NotBlank
     String name;
