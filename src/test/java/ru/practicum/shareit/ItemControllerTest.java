@@ -41,7 +41,7 @@ public class ItemControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonUser));
 
-        Item item = new Item(1L, "Дрель", "Простая дрель", user, true);
+        Item item = new Item(1L, "Drill", "Simple drill", user, true);
         String jsonItem = objectMapper.writeValueAsString(item);
 
         Long userId = 1L;
@@ -53,7 +53,7 @@ public class ItemControllerTest {
 
     @Test
     public void shouldItemWithoutXSharerUserId() throws Exception {
-        Item item = new Item(2L, "Дрель", "Простая дрель", user, true);
+        Item item = new Item(2L, "Drill", "Simple drill", user, true);
         String jsonItem = objectMapper.writeValueAsString(item);
 
         mockMvc.perform(post("/items")
@@ -64,7 +64,7 @@ public class ItemControllerTest {
 
     @Test
     public void shouldItemWithNotFoundUser() throws Exception {
-        Item item = new Item(2L, "Дрель", "Простая дрель", user, true);
+        Item item = new Item(2L, "Drill", "Simple drill", user, true);
         String jsonItem = objectMapper.writeValueAsString(item);
         Long userId = 99L;
 
@@ -77,7 +77,7 @@ public class ItemControllerTest {
 
     @Test
     public void shouldItemWithoutAvailable() throws Exception {
-        Item item = new Item(2L, "Дрель", "Простая дрель", user, null);
+        Item item = new Item(2L, "Drill", "Simple drill", user, null);
         String jsonItem = objectMapper.writeValueAsString(item);
         Long userId = 2L;
 
@@ -90,7 +90,7 @@ public class ItemControllerTest {
 
     @Test
     public void shouldItemWitEmptyName() throws Exception {
-        Item item = new Item(2L, "", "Простая дрель", user, true);
+        Item item = new Item(2L, "", "Simple drill", user, true);
         String jsonItem = objectMapper.writeValueAsString(item);
         Long userId = 2L;
 
@@ -103,7 +103,7 @@ public class ItemControllerTest {
 
     @Test
     public void shouldItemWitEmptyDescription() throws Exception {
-        Item item = new Item(2L, "Дрель", "", user, true);
+        Item item = new Item(2L, "Drill", "", user, true);
         String jsonItem = objectMapper.writeValueAsString(item);
         Long userId = 2L;
 
@@ -116,7 +116,7 @@ public class ItemControllerTest {
 
     @Test
     public void shouldItemUpdateWithoutXSharerUserId() throws Exception {
-        Item item = new Item(1L, "Дрель+", "Аккумуляторная дрель", user, false);
+        Item item = new Item(1L, "Drill+", "cordless drill", user, false);
         String jsonItem = objectMapper.writeValueAsString(item);
         Long userId = 1L;
 
