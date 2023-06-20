@@ -8,8 +8,4 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 class ShareItTests {
-    @Test
-    void test() {
-
-    }
 }
