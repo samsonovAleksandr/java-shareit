@@ -53,7 +53,7 @@ public class ItemServiceImpl implements ItemService {
         this.itemMapper = itemMapper;
     }
 
-    public Item postItem(Item item, long id) {
+    public Item create(Item item, long id) {
         if (userService.getUserId(id) != null) {
             item.setOwner(userService.getUserId(id));
             repository.save(item);
@@ -79,7 +79,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Transactional
-    public Item patchItem(long idUser, long itemId, Item item) {
+    public Item update(long idUser, long itemId, Item item) {
         Item item1 = repository.getReferenceById(itemId);
         if (item1.getOwner().getId() == idUser) {
             if (item.getName() != null) item1.setName(item.getName());
@@ -93,7 +93,7 @@ public class ItemServiceImpl implements ItemService {
         }
     }
 
-    public ItemDtoCommentResponse getItem(long id, long userId) {
+    public ItemDtoCommentResponse get(long id, long userId) {
         Item item = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         List<Booking> booking = bookingRepository.findAllByItemIdAndOwnerId(id, userId);
         List<Comment> comment = commentRepository.findAllByItemId(id);

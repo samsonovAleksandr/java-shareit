@@ -1,6 +1,5 @@
 package ru.practicum.shareit.booking.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,57 +21,63 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 public class BookingServiceImpl implements BookingService {
 
-    @Autowired
     BookingRepository repository;
 
-    @Autowired
     UserEntityRepository userRepository;
 
-    @Autowired
     ItemEntityRepository itemRepository;
 
-    @Autowired
     BookingMapper bookingMapper;
+
+    public BookingServiceImpl(BookingRepository repository
+            , UserEntityRepository userRepository
+            , ItemEntityRepository itemRepository
+            , BookingMapper bookingMapper) {
+        this.repository = repository;
+        this.userRepository = userRepository;
+        this.itemRepository = itemRepository;
+        this.bookingMapper = bookingMapper;
+    }
 
     @Override
     @Transactional
-    public BookingDto postBooking(BookingRequestDto bookingDto, long idUser) {
+    public BookingDto create(BookingRequestDto bookingDto, long idUser) {
         if (!(itemRepository.existsById(bookingDto.getItemId())))
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Item не найден");
         Item item = itemRepository.findById(bookingDto.getItemId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         if (bookingDto.getStart().equals(bookingDto.getEnd()) || bookingDto.getEnd().isBefore(bookingDto.getStart()))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Неверное время аренды");
 
 
-        if (item.getOwner().getId() == idUser) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        if (item.getOwner().getId() == idUser) throw new ResponseStatusException(HttpStatus.NOT_FOUND
+                , "Нельзя арендовать свой же предмет");
 
-        if (!userRepository.existsById(idUser)) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        if (!userRepository.existsById(idUser))
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Нет такого User");
 
         if (item.getAvailable()) {
             User booker = userRepository.getReferenceById(idUser);
             Booking booking = bookingMapper.toBooking(bookingDto, item, booker);
             return bookingMapper.toBookingDto(repository.save(booking));
         } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Предмет уже занят");
         }
     }
 
     @Override
-    @Transactional
-    public BookingDto patchBooking(long userId, long bookingId, boolean approved) {
+    public BookingDto update(long userId, long bookingId, boolean approved) {
         Booking booking = repository.findBookingOwner(bookingId, userId);
 
         if (booking == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Нет booking с таким Id");
         }
 
         if (approved) {
             if (booking.getStatus().equals(BookingStatus.APPROVED)) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Статус уже APPROVED");
             }
             booking.setStatus(BookingStatus.APPROVED);
         } else {
@@ -83,10 +88,11 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingDto getBooking(long userId, long bookingId) {
+    @Transactional
+    public BookingDto get(long userId, long bookingId) {
         Booking booking = repository.findBookingOwnerOrBooker(bookingId, userId);
         if (booking == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Нет booking с таким Id");
         }
         return bookingMapper.toBookingDto(booking);
     }
@@ -148,7 +154,7 @@ public class BookingServiceImpl implements BookingService {
         }
 
         if (bookings.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "bookings не найдены");
         }
         return bookingMapper.toListBooking(bookings);
     }

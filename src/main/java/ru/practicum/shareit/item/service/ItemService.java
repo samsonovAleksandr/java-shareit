@@ -10,11 +10,11 @@ import java.util.List;
 
 public interface ItemService {
 
-    Item postItem(Item item, long id);
+    Item create(Item item, long id);
 
-    Item patchItem(long idUser, long itemId, Item item);
+    Item update(long idUser, long itemId, Item item);
 
-    ItemDtoCommentResponse getItem(long id, long userId);
+    ItemDtoCommentResponse get(long id, long userId);
 
     List<ItemDtoCommentResponse> getItemOwner(long id);
 
