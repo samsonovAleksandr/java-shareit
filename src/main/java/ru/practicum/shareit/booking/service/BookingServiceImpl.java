@@ -31,10 +31,7 @@ public class BookingServiceImpl implements BookingService {
 
     BookingMapper bookingMapper;
 
-    public BookingServiceImpl(BookingRepository repository
-            , UserEntityRepository userRepository
-            , ItemEntityRepository itemRepository
-            , BookingMapper bookingMapper) {
+    public BookingServiceImpl(BookingRepository repository, UserEntityRepository userRepository, ItemEntityRepository itemRepository, BookingMapper bookingMapper) {
         this.repository = repository;
         this.userRepository = userRepository;
         this.itemRepository = itemRepository;
@@ -52,8 +49,8 @@ public class BookingServiceImpl implements BookingService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Неверное время аренды");
 
 
-        if (item.getOwner().getId() == idUser) throw new ResponseStatusException(HttpStatus.NOT_FOUND
-                , "Нельзя арендовать свой же предмет");
+        if (item.getOwner().getId() == idUser)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Нельзя арендовать свой же предмет");
 
         if (!userRepository.existsById(idUser))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Нет такого User");
