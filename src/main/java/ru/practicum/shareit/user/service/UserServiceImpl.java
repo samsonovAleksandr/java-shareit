@@ -1,58 +1,53 @@
 package ru.practicum.shareit.user.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.shareit.user.User;
+import ru.practicum.shareit.user.repository.UserEntityRepository;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private int i = 0;
-    public HashMap<Integer, User> users = new HashMap<>();
-
-    private int newId() {
-        return ++i;
-    }
+    @Autowired
+    UserEntityRepository userEntityRepository;
 
     public User addUser(User user) {
-        for (User user1 : users.values()) {
-            if (user1.getEmail().equals(user.getEmail())) {
-                throw new ResponseStatusException(
-                        HttpStatus.CONFLICT);
-            }
+        userEntityRepository.save(user);
+        return userEntityRepository.getReferenceById(user.getId());
+    }
+
+    public User getUserId(long id) {
+
+        if (userEntityRepository.existsById(id)) {
+            return userEntityRepository.getReferenceById(id);
+        } else {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND);
         }
-        user.setId(newId());
-        users.put(user.getId(), user);
-        return users.get(user.getId());
+
     }
 
-    public User getUserId(int id) {
-        return users.get(id);
-    }
-
-    public void userDelete(int id) {
-        users.remove(id);
+    public void userDelete(long id) {
+        userEntityRepository.deleteById(id);
     }
 
     public ArrayList<User> getAllUser() {
-        return new ArrayList<>(users.values());
+        return new ArrayList<>(userEntityRepository.findAll());
     }
 
-    public User updateUser(User user, int id) {
-        for (User us : users.values()) {
-            if (us.getEmail().equals(user.getEmail()) && us.getId() != id) {
-                throw new ResponseStatusException(
-                        HttpStatus.CONFLICT);
-            }
-        }
-        if (user.getName() != null) users.get(id).setName(user.getName());
+    @Transactional
+    public User updateUser(User user, long id) {
+        User user1 = userEntityRepository.getReferenceById(id);
+        if (user.getEmail() != null) user1.setEmail(user.getEmail());
 
-        if (user.getEmail() != null) users.get(id).setEmail(user.getEmail());
+        if (user.getName() != null) user1.setName(user.getName());
 
-        return users.get(id);
+        userEntityRepository.save(user1);
+        return user1;
     }
 }
