@@ -1,30 +1,28 @@
 package ru.practicum.shareit.item.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.practicum.shareit.user.User;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class ItemDto {
+@JsonSerialize
+public class RequestItemDto {
+
 
     private long id;
-    @NotBlank
+
     private String name;
-    @NotBlank
+
     private String description;
 
-    private User owner;
-    @NotNull
     private Boolean available;
 
-    private Long requestId;
+    private long requestId;
+
 
 }

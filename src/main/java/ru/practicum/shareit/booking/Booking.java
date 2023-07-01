@@ -31,10 +31,10 @@ public class Booking {
     @Future
     private LocalDateTime end;
     @OneToOne
-    @JoinColumn(name = "item_id")
+    @JoinColumn(name = "item_id", referencedColumnName = "id")
     private Item item;
     @ManyToOne
-    @JoinColumn(name = "booker_id")
+    @JoinColumn(name = "booker_id", referencedColumnName = "id")
     private User booker;
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

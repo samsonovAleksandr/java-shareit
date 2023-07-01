@@ -30,7 +30,15 @@ public class ItemMapper {
                 .description(item.getDescription())
                 .owner(item.getOwner())
                 .available(item.getAvailable())
+                .requestId(requestId(item))
                 .build();
+    }
+
+    public Long requestId(Item item) {
+        if (item.getRequestId() != null) {
+            return item.getRequestId();
+        }
+        return null;
     }
 
     public List<ItemDto> itemDtoList(List<Item> itemList) {

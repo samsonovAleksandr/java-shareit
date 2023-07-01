@@ -56,6 +56,7 @@ public class ItemServiceImpl implements ItemService {
     public Item create(Item item, long id) {
         if (userService.getUserId(id) != null) {
             item.setOwner(userService.getUserId(id));
+            item.setRequestId(item.getRequestId());
             repository.save(item);
             return item;
         } else {
