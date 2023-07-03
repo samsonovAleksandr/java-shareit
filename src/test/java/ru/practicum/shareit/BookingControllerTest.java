@@ -63,7 +63,7 @@ public class BookingControllerTest {
 
         owner = new User(2L, "newUser", "newUser@user.com");
 
-        item = new Item(1L, "Дрель", "Простая дрель", true, owner, null);
+        item = new Item(1L, "Drill", "Mini drill", true, owner, null);
 
         start = LocalDateTime.now().plusMinutes(1).withNano(000);
         end = start.plusDays(1).withNano(000);
@@ -95,7 +95,7 @@ public class BookingControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.item.id").value(1))
-                .andExpect(jsonPath("$.item.name").value("Дрель"))
+                .andExpect(jsonPath("$.item.name").value("Drill"))
                 .andExpect(jsonPath("$.status").value("WAITING"))
                 .andExpect(jsonPath("$.start").isNotEmpty())
                 .andExpect(jsonPath("$.end").isNotEmpty())
@@ -116,7 +116,7 @@ public class BookingControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.item.id").value(1))
-                .andExpect(jsonPath("$.item.name").value("Дрель"))
+                .andExpect(jsonPath("$.item.name").value("Drill"))
                 .andExpect(jsonPath("$.status").value("WAITING"))
                 .andExpect(jsonPath("$.start").isNotEmpty())
                 .andExpect(jsonPath("$.end").isNotEmpty())
