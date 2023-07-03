@@ -25,13 +25,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @WebMvcTest(controllers = BookingController.class)
 @AutoConfigureMockMvc
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
@@ -95,12 +95,12 @@ public class BookingControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.item.id").value(1))
-                .andExpect( jsonPath("$.item.name").value("Дрель"))
-                .andExpect( jsonPath("$.status").value("WAITING"))
-                .andExpect( jsonPath("$.start").isNotEmpty())
-                .andExpect( jsonPath("$.end").isNotEmpty())
+                .andExpect(jsonPath("$.item.name").value("Дрель"))
+                .andExpect(jsonPath("$.status").value("WAITING"))
+                .andExpect(jsonPath("$.start").isNotEmpty())
+                .andExpect(jsonPath("$.end").isNotEmpty())
                 .andExpect(jsonPath("$.booker.id").value(1))
-                .andExpect( jsonPath("$.booker.name").value("user"));
+                .andExpect(jsonPath("$.booker.name").value("user"));
     }
 
     @Test
@@ -114,14 +114,14 @@ public class BookingControllerTest {
                         .header("X-Sharer-User-Id", userId))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect( jsonPath("$.id").value(1))
-                .andExpect( jsonPath("$.item.id").value(1))
-                .andExpect( jsonPath("$.item.name").value("Дрель"))
-                .andExpect( jsonPath("$.status").value("WAITING"))
-                .andExpect( jsonPath("$.start").isNotEmpty())
-                .andExpect( jsonPath("$.end").isNotEmpty())
-                .andExpect( jsonPath("$.booker.id").value(1))
-                .andExpect( jsonPath("$.booker.name").value("user"));
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.item.id").value(1))
+                .andExpect(jsonPath("$.item.name").value("Дрель"))
+                .andExpect(jsonPath("$.status").value("WAITING"))
+                .andExpect(jsonPath("$.start").isNotEmpty())
+                .andExpect(jsonPath("$.end").isNotEmpty())
+                .andExpect(jsonPath("$.booker.id").value(1))
+                .andExpect(jsonPath("$.booker.name").value("user"));
     }
 
     @Test
@@ -135,7 +135,7 @@ public class BookingControllerTest {
         mockMvc.perform(patch("/bookings/{bookingId}?approved=true", bookingId)
                         .header("X-Sharer-User-Id", userId))
                 .andExpect(status().isOk())
-                .andExpect( jsonPath("$.status").value("APPROVED"));
+                .andExpect(jsonPath("$.status").value("APPROVED"));
     }
 
     @Test
@@ -176,7 +176,7 @@ public class BookingControllerTest {
         mockMvc.perform(patch("/bookings/{bookingId}?approved=false", bookingId)
                         .header("X-Sharer-User-Id", userId))
                 .andExpect(status().isOk())
-                .andExpect( jsonPath("$.status").value("REJECTED"));
+                .andExpect(jsonPath("$.status").value("REJECTED"));
 
     }
 
@@ -205,7 +205,7 @@ public class BookingControllerTest {
                         .header("X-Sharer-User-Id", userId))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect( jsonPath("$", hasSize(3)));
+                .andExpect(jsonPath("$", hasSize(3)));
     }
 
     @Test
@@ -219,7 +219,7 @@ public class BookingControllerTest {
                         .header("X-Sharer-User-Id", userId))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect( jsonPath("$", hasSize(2)));
+                .andExpect(jsonPath("$", hasSize(2)));
     }
 
 }
