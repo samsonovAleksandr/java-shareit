@@ -15,8 +15,6 @@ import ru.practicum.shareit.user.repository.UserEntityRepository;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 @DataJpaTest
 class BookingRepositoryTest {
     @Autowired

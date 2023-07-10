@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.practicum.shareit.request.ItemRequestController;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.dto.ItemRequestResponseDto;
-import ru.practicum.shareit.request.service.RequestService;
 import ru.practicum.shareit.request.service.RequestServiceImpl;
 import ru.practicum.shareit.user.User;
 
@@ -114,7 +113,7 @@ public class RequestControllerTest {
     public void shouldItemRequestAdd() throws Exception {
         String jsonItem = objectMapper.writeValueAsString(itemResponse);
 
-        when(requestService.create( anyLong(), any())).thenReturn(itemResponse);
+        when(requestService.create(anyLong(), any())).thenReturn(itemResponse);
 
         mockMvc.perform(post("/requests")
                         .header("X-Sharer-User-Id", 1)

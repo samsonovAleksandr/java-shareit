@@ -8,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.shareit.booking.Booking;
 import ru.practicum.shareit.booking.BookingStatus;
 import ru.practicum.shareit.item.comments.Comment;
@@ -201,14 +199,14 @@ public class ItemControllerTest {
     @Test
     public void shouldGetItem() throws Exception {
         Item item = new Item(1, "Drill", "Mini Drill", true, user, null);
-        Booking booking = new Booking(1,LocalDateTime.now(), LocalDateTime.now().plusDays(1), item, user, BookingStatus.APPROVED);
-       ItemDtoCommentResponse idcr = itemMapper.toItemResponseDto(item, List.of(booking), List.of(comment));
+        Booking booking = new Booking(1, LocalDateTime.now(), LocalDateTime.now().plusDays(1), item, user, BookingStatus.APPROVED);
+        ItemDtoCommentResponse idcr = itemMapper.toItemResponseDto(item, List.of(booking), List.of(comment));
         when(itemService.get(anyLong(), anyLong())).thenReturn(idcr);
         mvc.perform(get("/items/1")
-                .characterEncoding(StandardCharsets.UTF_8)
-                .header("X-Sharer-User-Id", 1)
-                .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isOk())
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .header("X-Sharer-User-Id", 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Drill"))
                 .andExpect(jsonPath("$.description").value("Mini Drill"))
                 .andExpect(jsonPath("$.available").value(true))
@@ -219,19 +217,19 @@ public class ItemControllerTest {
     @Test
     public void shouldGetItemWithoutIdItem() throws Exception {
         Item item = new Item(1, "Drill", "Mini Drill", true, user, null);
-        Booking booking = new Booking(1,LocalDateTime.now(), LocalDateTime.now().plusDays(1), item, user, BookingStatus.APPROVED);
+        Booking booking = new Booking(1, LocalDateTime.now(), LocalDateTime.now().plusDays(1), item, user, BookingStatus.APPROVED);
         ItemDtoCommentResponse idcr = itemMapper.toItemResponseDto(item, List.of(booking), List.of(comment));
         when(itemService.get(anyLong(), anyLong())).thenReturn(idcr);
         mvc.perform(get("/items/99")
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                ).andExpect(status().is4xxClientError());
+                .characterEncoding(StandardCharsets.UTF_8)
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().is4xxClientError());
     }
 
     @Test
     public void shouldGetItemWithoutXSharerUserId() throws Exception {
         Item item = new Item(1, "Drill", "Mini Drill", true, user, null);
-        Booking booking = new Booking(1,LocalDateTime.now(), LocalDateTime.now().plusDays(1), item, user, BookingStatus.APPROVED);
+        Booking booking = new Booking(1, LocalDateTime.now(), LocalDateTime.now().plusDays(1), item, user, BookingStatus.APPROVED);
         ItemDtoCommentResponse idcr = itemMapper.toItemResponseDto(item, List.of(booking), List.of(comment));
         when(itemService.get(anyLong(), anyLong())).thenReturn(idcr);
         mvc.perform(get("/items/1")
@@ -243,7 +241,7 @@ public class ItemControllerTest {
     @Test
     public void shouldGetItemOwnerWithoutXSharerUserId() throws Exception {
         Item item = new Item(1, "Drill", "Mini Drill", true, user, null);
-        Booking booking = new Booking(1,LocalDateTime.now(), LocalDateTime.now().plusDays(1), item, user, BookingStatus.APPROVED);
+        Booking booking = new Booking(1, LocalDateTime.now(), LocalDateTime.now().plusDays(1), item, user, BookingStatus.APPROVED);
         ItemDtoCommentResponse idcr = itemMapper.toItemResponseDto(item, List.of(booking), List.of(comment));
         when(itemService.getItemOwner(anyLong())).thenReturn(List.of(idcr));
         mvc.perform(get("/items")
@@ -255,14 +253,14 @@ public class ItemControllerTest {
     @Test
     public void shouldGetItemOwner() throws Exception {
         Item item = new Item(1, "Drill", "Mini Drill", true, user, null);
-        Booking booking = new Booking(1,LocalDateTime.now(), LocalDateTime.now().plusDays(1), item, user, BookingStatus.APPROVED);
+        Booking booking = new Booking(1, LocalDateTime.now(), LocalDateTime.now().plusDays(1), item, user, BookingStatus.APPROVED);
         ItemDtoCommentResponse idcr = itemMapper.toItemResponseDto(item, List.of(booking), List.of(comment));
         when(itemService.getItemOwner(anyLong())).thenReturn(List.of(idcr));
         mvc.perform(get("/items")
-                .characterEncoding(StandardCharsets.UTF_8)
-                .header("X-Sharer-User-Id", 1)
-                .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isOk())
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .header("X-Sharer-User-Id", 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].id").value(1))
                 .andExpect(jsonPath("$.[0].name").value("Drill"))
                 .andExpect(jsonPath("$.[0].description").value("Mini Drill"))

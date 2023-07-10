@@ -19,8 +19,6 @@ import ru.practicum.shareit.request.service.RequestService;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.repository.UserEntityRepository;
 
-import javax.persistence.EntityNotFoundException;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -83,7 +81,7 @@ class RequestServiceImplTest {
 
         ResponseStatusException exception = assertThrows(
                 ResponseStatusException.class,
-                () -> requestService.create(99,itemRequestDto));
+                () -> requestService.create(99, itemRequestDto));
 
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
 
@@ -103,9 +101,9 @@ class RequestServiceImplTest {
         requestRepository.save(itemRequest);
         ItemRequestDto itemRequestDto = new ItemRequestDto("Drill");
         requestService.create(1, itemRequestDto);
-       List<ItemRequestResponseDto> itemRequestResponseDto = requestService.get(2, 1,5);
+        List<ItemRequestResponseDto> itemRequestResponseDto = requestService.get(2, 1, 5);
 
-        assertEquals(itemRequestResponseDto.size(),0);
+        assertEquals(itemRequestResponseDto.size(), 0);
     }
 
     @Test
@@ -124,7 +122,7 @@ class RequestServiceImplTest {
         requestService.create(1, itemRequestDto);
         ResponseStatusException exception = assertThrows(
                 ResponseStatusException.class,
-                () -> requestService.get(99,1,5));
+                () -> requestService.get(99, 1, 5));
 
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
     }
@@ -145,7 +143,7 @@ class RequestServiceImplTest {
         requestService.create(1, itemRequestDto);
         List<ItemRequestResponseDto> itemRequestResponseDto = requestService.getRequest(1);
 
-        assertEquals(itemRequestResponseDto.size(),2);
+        assertEquals(itemRequestResponseDto.size(), 2);
     }
 
     @Test
@@ -183,7 +181,7 @@ class RequestServiceImplTest {
         requestRepository.save(itemRequest);
         ItemRequestDto itemRequestDto = new ItemRequestDto("Drill");
         requestService.create(1, itemRequestDto);
-        ItemRequestResponseDto itemRequestResponseDto = requestService.getRequestId(1,1);
+        ItemRequestResponseDto itemRequestResponseDto = requestService.getRequestId(1, 1);
         assertEquals(itemRequestResponseDto.getDescription(), itemRequestDto.getDescription());
     }
 
@@ -203,7 +201,7 @@ class RequestServiceImplTest {
         requestService.create(1, itemRequestDto);
         ResponseStatusException exception = assertThrows(
                 ResponseStatusException.class,
-                () -> requestService.getRequestId(1,99));
+                () -> requestService.getRequestId(1, 99));
 
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
     }
@@ -224,7 +222,7 @@ class RequestServiceImplTest {
         requestService.create(1, itemRequestDto);
         ResponseStatusException exception = assertThrows(
                 ResponseStatusException.class,
-                () -> requestService.getRequestId(99,1));
+                () -> requestService.getRequestId(99, 1));
 
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
     }
