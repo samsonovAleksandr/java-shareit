@@ -1,9 +1,11 @@
 package ru.practicum.shareit.item;
 
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.comments.Comment;
 import ru.practicum.shareit.item.comments.CommentDto;
-import ru.practicum.shareit.item.comments.CommentMapper;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemDtoCommentResponse;
 import ru.practicum.shareit.item.mapper.ItemMapper;
@@ -15,20 +17,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/items")
-
+@AllArgsConstructor
+@Validated
 public class ItemController {
+    @Autowired
+    private ItemService itemService;
+    @Autowired
+    private ItemMapper itemMapper;
 
-    private final ItemService itemService;
-
-    private final ItemMapper itemMapper;
-
-    private final CommentMapper commentMapper;
-
-    public ItemController(ItemService itemService, ItemMapper itemMapper, CommentMapper commentMapper) {
-        this.itemService = itemService;
-        this.itemMapper = itemMapper;
-        this.commentMapper = commentMapper;
-    }
 
     @PostMapping
     public ItemDto postItem(@RequestBody @Valid Item item,

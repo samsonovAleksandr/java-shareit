@@ -1,4 +1,4 @@
-package ru.practicum.shareit;
+package ru.practicum.shareit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -157,7 +157,7 @@ public class BookingControllerTest {
         Integer userId = 1;
 
         when(bookingService.update(anyLong(), anyLong(), anyBoolean()))
-                .thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Статус уже APPROVED"));
+                .thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST));
 
         mockMvc.perform(patch("/bookings/{bookingId}?approved=true", bookingId)
                         .header("X-Sharer-User-Id", userId))
@@ -186,7 +186,7 @@ public class BookingControllerTest {
         Integer userId = 100;
 
         when(bookingService.update(anyLong(), anyLong(), anyBoolean()))
-                .thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "Нет booking с таким Id"));
+                .thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         mockMvc.perform(patch("/bookings/{bookingId}?approved=true", bookingId)
                         .header("X-Sharer-User-Id", userId))

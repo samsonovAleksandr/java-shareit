@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item.mapper;
 
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.Booking;
 import ru.practicum.shareit.booking.BookingStatus;
@@ -20,6 +21,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@Component
 public class ItemMapper {
 
     public ItemDto toItemDto(Item item) {

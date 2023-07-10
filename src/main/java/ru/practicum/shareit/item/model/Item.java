@@ -28,7 +28,4 @@ public class Item {
     User owner;
     Long requestId;
 
-    public Item(long id, String name, String description, User owner, Boolean available) {
-
-    }
 }

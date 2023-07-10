@@ -44,13 +44,12 @@ public class ItemServiceImpl implements ItemService {
     private final UserService userService;
 
     private final CommentMapper commentMapper;
+    @Autowired
+    private ItemMapper itemMapper;
 
-    private final ItemMapper itemMapper;
-
-    public ItemServiceImpl(UserService userService, CommentMapper commentMapper, ItemMapper itemMapper) {
+    public ItemServiceImpl(UserService userService, CommentMapper commentMapper) {
         this.userService = userService;
         this.commentMapper = commentMapper;
-        this.itemMapper = itemMapper;
     }
 
     public Item create(Item item, long id) {
@@ -58,7 +57,7 @@ public class ItemServiceImpl implements ItemService {
             item.setOwner(userService.getUserId(id));
             item.setRequestId(item.getRequestId());
             repository.save(item);
-            return item;
+            return repository.getReferenceById(item.getId());
         } else {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND);
@@ -68,13 +67,13 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     public Comment postComment(CommentDto commentDto, long itemId, long userId) {
         commentDto.setCreated(LocalDateTime.now());
+        User user = userEntityRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Item item = repository.findById(itemId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         List<Booking> booking = bookingRepository.findAllByBookerIdAndItemIdAndStatusNotAndStartBefore(userId, itemId,
                 BookingStatus.REJECTED, LocalDateTime.now());
         if (booking.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        User user = userEntityRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        Item item = repository.findById(itemId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         Comment comment = commentMapper.toComment(commentDto, item, user);
         return commentRepository.save(comment);
     }
@@ -95,6 +94,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     public ItemDtoCommentResponse get(long id, long userId) {
+        User user = userEntityRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         Item item = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         List<Booking> booking = bookingRepository.findAllByItemIdAndOwnerId(id, userId);
         List<Comment> comment = commentRepository.findAllByItemId(id);
