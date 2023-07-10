@@ -129,7 +129,7 @@ class BookingServiceImplTest {
         bookingRequestDto.setItemId(1);
         bookingRequestDto.setId(1);
         bookingRequestDto.setStart(LocalDateTime.now());
-        bookingRequestDto.setEnd(LocalDateTime.now());
+        bookingRequestDto.setEnd(bookingRequestDto.getStart());
 
         ResponseStatusException exception = assertThrows(
                 ResponseStatusException.class,
