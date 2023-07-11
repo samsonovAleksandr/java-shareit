@@ -9,11 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import ru.practicum.shareit.item.dto.RequestItemDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemEntityRepository;
 import ru.practicum.shareit.request.ItemRequest;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.dto.ItemRequestResponseDto;
+import ru.practicum.shareit.request.mapper.RequestMapper;
 import ru.practicum.shareit.request.repository.RequestRepository;
 import ru.practicum.shareit.request.service.RequestService;
 import ru.practicum.shareit.user.User;
@@ -34,6 +36,7 @@ class RequestServiceImplTest {
     private final UserEntityRepository userRepository;
     private final ItemEntityRepository itemRepository;
     private final RequestRepository requestRepository;
+    private final RequestMapper requestMapper;
 
     private User user;
     private User user1;
@@ -140,10 +143,9 @@ class RequestServiceImplTest {
                 .build();
         requestRepository.save(itemRequest);
         ItemRequestDto itemRequestDto = new ItemRequestDto("Drill");
-        requestService.create(1, itemRequestDto);
         List<ItemRequestResponseDto> itemRequestResponseDto = requestService.getRequest(1);
 
-        assertEquals(itemRequestResponseDto.size(), 2);
+        assertEquals(itemRequestResponseDto.size(), 1);
     }
 
     @Test
@@ -159,7 +161,6 @@ class RequestServiceImplTest {
                 .build();
         requestRepository.save(itemRequest);
         ItemRequestDto itemRequestDto = new ItemRequestDto("Drill");
-        requestService.create(1, itemRequestDto);
         ResponseStatusException exception = assertThrows(
                 ResponseStatusException.class,
                 () -> requestService.getRequest(99));
@@ -225,5 +226,22 @@ class RequestServiceImplTest {
                 () -> requestService.getRequestId(99, 1));
 
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
+    }
+
+    @Test
+    @Transactional
+    void getRequestIdMapper() {
+        item.setRequestId(1L);
+        itemRepository.save(item);
+        userRepository.save(user);
+        userRepository.save(user1);
+        ItemRequest itemRequest = ItemRequest.builder()
+                .description("Drill")
+                .requestor(1)
+                .created(LocalDateTime.now())
+                .build();
+        requestRepository.save(itemRequest);
+       RequestItemDto requestItemDto = requestMapper.toRequestItemDto(item);
+        assertEquals(requestItemDto.getDescription(), "Mini Drill");
     }
 }

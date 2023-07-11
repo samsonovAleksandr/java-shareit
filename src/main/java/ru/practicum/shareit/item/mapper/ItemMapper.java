@@ -51,16 +51,6 @@ public class ItemMapper {
         return itemDtos;
     }
 
-    public Item toItem(ItemDto dto, User user) {
-        return Item.builder()
-                .id(dto.getId())
-                .name(dto.getName())
-                .description(dto.getDescription())
-                .available(dto.getAvailable())
-                .owner(user)
-                .build();
-    }
-
     public ItemDtoCommentResponse toItemResponseDto(Item item, List<Booking> booking, List<Comment> comment) {
         BookingDtoItem bookingLast = null;
         BookingDtoItem bookingNext = null;

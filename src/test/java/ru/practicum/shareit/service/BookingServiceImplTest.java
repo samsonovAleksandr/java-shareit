@@ -321,6 +321,146 @@ class BookingServiceImplTest {
     }
 
     @Test
+    void getBookingByOwnerId() {
+        userRepository.save(user);
+        userRepository.save(user1);
+        itemRepository.save(item);
+        Booking booking = Booking.builder()
+                .start(LocalDateTime.now())
+                .end(LocalDateTime.now().plusDays(1))
+                .booker(user1)
+                .item(item)
+                .status(BookingStatus.APPROVED)
+                .build();
+        bookingRepository.save(booking);
+
+        List<BookingDto> list = bookingService.getBookingByUserId(State.ALL, 1, "owner", 1, 5);
+
+        assertEquals(list.size(), 1);
+        assertEquals(list.get(0).getItem().getName(), item.getName());
+    }
+
+    @Test
+    void getBookingByUserIdCurrent() {
+        userRepository.save(user);
+        userRepository.save(user1);
+        itemRepository.save(item);
+        Booking booking = Booking.builder()
+                .start(LocalDateTime.now())
+                .end(LocalDateTime.now().plusDays(1))
+                .booker(user1)
+                .item(item)
+                .status(BookingStatus.APPROVED)
+                .build();
+        bookingRepository.save(booking);
+
+        List<BookingDto> list = bookingService.getBookingByUserId(State.CURRENT, 2, "user", 1, 5);
+
+        assertEquals(list.size(), 1);
+        assertEquals(list.get(0).getItem().getName(), item.getName());
+    }
+
+    @Test
+    void getBookingByOwnerIdCurrent() {
+        userRepository.save(user);
+        userRepository.save(user1);
+        itemRepository.save(item);
+        Booking booking = Booking.builder()
+                .start(LocalDateTime.now())
+                .end(LocalDateTime.now().plusDays(1))
+                .booker(user1)
+                .item(item)
+                .status(BookingStatus.APPROVED)
+                .build();
+        bookingRepository.save(booking);
+
+        List<BookingDto> list = bookingService.getBookingByUserId(State.CURRENT, 1, "owner", 1, 5);
+
+        assertEquals(list.size(), 1);
+        assertEquals(list.get(0).getItem().getName(), item.getName());
+    }
+
+    @Test
+    void getBookingByUserIdWaiting() {
+        userRepository.save(user);
+        userRepository.save(user1);
+        itemRepository.save(item);
+        Booking booking = Booking.builder()
+                .start(LocalDateTime.now())
+                .end(LocalDateTime.now().plusDays(1))
+                .booker(user1)
+                .item(item)
+                .status(BookingStatus.WAITING)
+                .build();
+        bookingRepository.save(booking);
+
+        List<BookingDto> list = bookingService.getBookingByUserId(State.WAITING, 2, "user", 1, 5);
+
+        assertEquals(list.size(), 1);
+        assertEquals(list.get(0).getItem().getName(), item.getName());
+    }
+
+    @Test
+    void getBookingByOwnerIdWaiting() {
+        userRepository.save(user);
+        userRepository.save(user1);
+        itemRepository.save(item);
+        Booking booking = Booking.builder()
+                .start(LocalDateTime.now())
+                .end(LocalDateTime.now().plusDays(1))
+                .booker(user1)
+                .item(item)
+                .status(BookingStatus.WAITING)
+                .build();
+        bookingRepository.save(booking);
+
+        List<BookingDto> list = bookingService.getBookingByUserId(State.WAITING, 1, "owner", 1, 5);
+
+        assertEquals(list.size(), 1);
+        assertEquals(list.get(0).getItem().getName(), item.getName());
+    }
+
+    @Test
+    void getBookingByUserIdRejected() {
+        userRepository.save(user);
+        userRepository.save(user1);
+        itemRepository.save(item);
+        Booking booking = Booking.builder()
+                .start(LocalDateTime.now())
+                .end(LocalDateTime.now().plusDays(1))
+                .booker(user1)
+                .item(item)
+                .status(BookingStatus.REJECTED)
+                .build();
+        bookingRepository.save(booking);
+
+        List<BookingDto> list = bookingService.getBookingByUserId(State.REJECTED, 2, "user", 1, 5);
+
+        assertEquals(list.size(), 1);
+        assertEquals(list.get(0).getItem().getName(), item.getName());
+    }
+
+    @Test
+    void getBookingByOwnerIdRejected() {
+        userRepository.save(user);
+        userRepository.save(user1);
+        itemRepository.save(item);
+        Booking booking = Booking.builder()
+                .start(LocalDateTime.now())
+                .end(LocalDateTime.now().plusDays(1))
+                .booker(user1)
+                .item(item)
+                .status(BookingStatus.REJECTED)
+                .build();
+        bookingRepository.save(booking);
+
+        List<BookingDto> list = bookingService.getBookingByUserId(State.REJECTED, 1, "owner", 1, 5);
+
+        assertEquals(list.size(), 1);
+        assertEquals(list.get(0).getItem().getName(), item.getName());
+    }
+
+    @Test
     void getBookingByUserIdUnsupportedStatus() {
         userRepository.save(user);
         userRepository.save(user1);
@@ -337,6 +477,28 @@ class BookingServiceImplTest {
         StateException exception = assertThrows(
                 StateException.class,
                 () -> bookingService.getBookingByUserId(State.UNSUPPORTED_STATUS, 1, "user", 1, 5));
+
+        assertEquals("UNSUPPORTED_STATUS", exception.getMessage());
+
+    }
+
+    @Test
+    void getBookingByOwnerIdUnsupportedStatus() {
+        userRepository.save(user);
+        userRepository.save(user1);
+        itemRepository.save(item);
+        Booking booking = Booking.builder()
+                .start(LocalDateTime.now())
+                .end(LocalDateTime.now().plusDays(1))
+                .booker(user1)
+                .item(item)
+                .status(BookingStatus.APPROVED)
+                .build();
+        bookingRepository.save(booking);
+
+        StateException exception = assertThrows(
+                StateException.class,
+                () -> bookingService.getBookingByUserId(State.UNSUPPORTED_STATUS, 1, "owner", 1, 5));
 
         assertEquals("UNSUPPORTED_STATUS", exception.getMessage());
 

@@ -16,6 +16,7 @@ import ru.practicum.shareit.booking.BookingStatus;
 import ru.practicum.shareit.item.comments.Comment;
 import ru.practicum.shareit.item.comments.CommentDto;
 import ru.practicum.shareit.item.comments.CommentMapper;
+import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemDtoCommentResponse;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
@@ -27,10 +28,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -265,6 +266,20 @@ public class ItemControllerTest {
                 .andExpect(jsonPath("$.[0].name").value("Drill"))
                 .andExpect(jsonPath("$.[0].description").value("Mini Drill"))
                 .andExpect(jsonPath("$.[0].comments.[0].id").value(1));
+    }
+
+    @Test
+    void search() throws Exception {
+        Item item = new Item(1, "Drill", "Mini Drill", true, user, null);
+        List<ItemDto> itemDtos =  itemMapper.itemDtoList(List.of(item));
+        when(itemService.searchItem(anyString())).thenReturn(List.of(item));
+        mvc.perform(get("/items/search?text=drill")
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .contentType(MediaType.APPLICATION_JSON)
+                ).andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].id").value(1))
+                .andExpect(jsonPath("$.[0].name").value("Drill"))
+                .andExpect(jsonPath("$.[0].description").value("Mini Drill"));
     }
 
 }
