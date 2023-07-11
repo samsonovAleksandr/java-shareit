@@ -2,10 +2,10 @@ package ru.practicum.shareit.request.mapper;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.RequestItemDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.request.ItemRequest;
-import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.dto.ItemRequestResponseDto;
 import ru.practicum.shareit.user.User;
 
@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class RequestMapper {
 
-    public ItemRequest toItemRequest(ItemRequestDto dto, User user) {
+    public ItemRequest toItemRequest(ItemDto dto, User user) {
         return ItemRequest.builder()
                 .description(dto.getDescription())
                 .created(LocalDateTime.now())

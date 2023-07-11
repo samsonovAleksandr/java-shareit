@@ -9,11 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.RequestItemDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemEntityRepository;
 import ru.practicum.shareit.request.ItemRequest;
-import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.dto.ItemRequestResponseDto;
 import ru.practicum.shareit.request.mapper.RequestMapper;
 import ru.practicum.shareit.request.repository.RequestRepository;
@@ -67,7 +67,9 @@ class RequestServiceImplTest {
         itemRepository.save(item);
         userRepository.save(user);
         userRepository.save(user1);
-        ItemRequestDto itemRequestDto = new ItemRequestDto("Drill");
+        ItemDto itemRequestDto = ItemDto.builder()
+                .description("Drill")
+                .build();
         ItemRequestResponseDto itemRequestResponseDto = requestService.create(1, itemRequestDto);
 
         assertEquals(itemRequestResponseDto.getDescription(), itemRequestDto.getDescription());
@@ -80,7 +82,9 @@ class RequestServiceImplTest {
         itemRepository.save(item);
         userRepository.save(user);
         userRepository.save(user1);
-        ItemRequestDto itemRequestDto = new ItemRequestDto("Drill");
+        ItemDto itemRequestDto = ItemDto.builder()
+                .description("Drill")
+                .build();
 
         ResponseStatusException exception = assertThrows(
                 ResponseStatusException.class,
@@ -102,7 +106,9 @@ class RequestServiceImplTest {
                 .created(LocalDateTime.now())
                 .build();
         requestRepository.save(itemRequest);
-        ItemRequestDto itemRequestDto = new ItemRequestDto("Drill");
+        ItemDto itemRequestDto = ItemDto.builder()
+                .description("Drill")
+                .build();
         requestService.create(1, itemRequestDto);
         List<ItemRequestResponseDto> itemRequestResponseDto = requestService.get(2, 1, 5);
 
@@ -121,7 +127,9 @@ class RequestServiceImplTest {
                 .created(LocalDateTime.now())
                 .build();
         requestRepository.save(itemRequest);
-        ItemRequestDto itemRequestDto = new ItemRequestDto("Drill");
+        ItemDto itemRequestDto = ItemDto.builder()
+                .description("Drill")
+                .build();
         requestService.create(1, itemRequestDto);
         ResponseStatusException exception = assertThrows(
                 ResponseStatusException.class,
@@ -142,7 +150,9 @@ class RequestServiceImplTest {
                 .created(LocalDateTime.now())
                 .build();
         requestRepository.save(itemRequest);
-        ItemRequestDto itemRequestDto = new ItemRequestDto("Drill");
+        ItemDto itemRequestDto = ItemDto.builder()
+                .description("Drill")
+                .build();
         List<ItemRequestResponseDto> itemRequestResponseDto = requestService.getRequest(1);
 
         assertEquals(itemRequestResponseDto.size(), 1);
@@ -160,7 +170,9 @@ class RequestServiceImplTest {
                 .created(LocalDateTime.now())
                 .build();
         requestRepository.save(itemRequest);
-        ItemRequestDto itemRequestDto = new ItemRequestDto("Drill");
+        ItemDto itemRequestDto = ItemDto.builder()
+                .description("Drill")
+                .build();
         ResponseStatusException exception = assertThrows(
                 ResponseStatusException.class,
                 () -> requestService.getRequest(99));
@@ -180,7 +192,9 @@ class RequestServiceImplTest {
                 .created(LocalDateTime.now())
                 .build();
         requestRepository.save(itemRequest);
-        ItemRequestDto itemRequestDto = new ItemRequestDto("Drill");
+        ItemDto itemRequestDto = ItemDto.builder()
+                .description("Drill")
+                .build();
         requestService.create(1, itemRequestDto);
         ItemRequestResponseDto itemRequestResponseDto = requestService.getRequestId(1, 1);
         assertEquals(itemRequestResponseDto.getDescription(), itemRequestDto.getDescription());
@@ -198,7 +212,9 @@ class RequestServiceImplTest {
                 .created(LocalDateTime.now())
                 .build();
         requestRepository.save(itemRequest);
-        ItemRequestDto itemRequestDto = new ItemRequestDto("Drill");
+        ItemDto itemRequestDto = ItemDto.builder()
+                .description("Drill")
+                .build();
         requestService.create(1, itemRequestDto);
         ResponseStatusException exception = assertThrows(
                 ResponseStatusException.class,
@@ -219,7 +235,9 @@ class RequestServiceImplTest {
                 .created(LocalDateTime.now())
                 .build();
         requestRepository.save(itemRequest);
-        ItemRequestDto itemRequestDto = new ItemRequestDto("Drill");
+        ItemDto itemRequestDto = ItemDto.builder()
+                .description("Drill")
+                .build();
         requestService.create(1, itemRequestDto);
         ResponseStatusException exception = assertThrows(
                 ResponseStatusException.class,

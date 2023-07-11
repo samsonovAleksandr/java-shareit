@@ -1,8 +1,7 @@
 package ru.practicum.shareit.request;
 
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.request.dto.ItemRequestDto;
+import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.request.dto.ItemRequestResponseDto;
 import ru.practicum.shareit.request.service.RequestService;
 
@@ -13,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/requests")
-@Validated
 @ResponseBody
 public class ItemRequestController {
 
@@ -25,7 +23,7 @@ public class ItemRequestController {
 
     @PostMapping
     public ItemRequestResponseDto postRequest(@RequestHeader("X-Sharer-User-Id") long userId,
-                                              @RequestBody @Valid ItemRequestDto itemRequestDto) {
+                                              @RequestBody @Valid ItemDto itemRequestDto) {
         return requestService.create(userId, itemRequestDto);
     }
 

@@ -10,8 +10,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.request.ItemRequestController;
-import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.dto.ItemRequestResponseDto;
 import ru.practicum.shareit.request.service.RequestServiceImpl;
 import ru.practicum.shareit.user.User;
@@ -38,7 +38,7 @@ public class RequestControllerTest {
     private final ObjectMapper objectMapper;
     private User user;
     private User userTwo;
-    private ItemRequestDto item;
+    private ItemDto item;
     private ItemRequestResponseDto itemResponse;
     @MockBean
     private RequestServiceImpl requestService;
@@ -49,7 +49,7 @@ public class RequestControllerTest {
 
         userTwo = new User(2, "userNew", "userNew@userNew.com");
 
-        item = new ItemRequestDto("Brush for footwear");
+        item = new ItemDto("Brush for footwear");
 
         itemResponse = ItemRequestResponseDto.builder()
                 .id(1L)
@@ -62,7 +62,9 @@ public class RequestControllerTest {
 
     @Test
     public void shouldItemRequestWithEmptyDescription() throws Exception {
-        ItemRequestDto item = new ItemRequestDto(null);
+        ItemDto item = ItemDto.builder()
+                .description(null)
+                .build();
         mockMvc.perform(post("/requests")
                         .header("X-Sharer-User-Id", 1)
                         .contentType(MediaType.APPLICATION_JSON)

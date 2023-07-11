@@ -4,11 +4,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.RequestItemDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemEntityRepository;
 import ru.practicum.shareit.request.ItemRequest;
-import ru.practicum.shareit.request.dto.ItemRequestDto;
 import ru.practicum.shareit.request.dto.ItemRequestResponseDto;
 import ru.practicum.shareit.request.mapper.RequestMapper;
 import ru.practicum.shareit.request.repository.RequestRepository;
@@ -39,7 +39,7 @@ public class RequestServiceImpl implements RequestService {
 
 
     @Override
-    public ItemRequestResponseDto create(long userId, ItemRequestDto itemRequestDto) {
+    public ItemRequestResponseDto create(long userId, ItemDto itemRequestDto) {
         User user = userEntityRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         ItemRequest itemRequest = requestMapper.toItemRequest(itemRequestDto, user);
         List<RequestItemDto> requestItemDtoList = new ArrayList<>();
