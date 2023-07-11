@@ -241,7 +241,7 @@ class RequestServiceImplTest {
                 .created(LocalDateTime.now())
                 .build();
         requestRepository.save(itemRequest);
-       RequestItemDto requestItemDto = requestMapper.toRequestItemDto(item);
+        RequestItemDto requestItemDto = requestMapper.toRequestItemDto(item);
         assertEquals(requestItemDto.getDescription(), "Mini Drill");
     }
 }

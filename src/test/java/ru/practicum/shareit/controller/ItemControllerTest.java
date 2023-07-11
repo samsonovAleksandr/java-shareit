@@ -31,7 +31,6 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -271,7 +270,7 @@ public class ItemControllerTest {
     @Test
     void search() throws Exception {
         Item item = new Item(1, "Drill", "Mini Drill", true, user, null);
-        List<ItemDto> itemDtos =  itemMapper.itemDtoList(List.of(item));
+        List<ItemDto> itemDtos = itemMapper.itemDtoList(List.of(item));
         when(itemService.searchItem(anyString())).thenReturn(List.of(item));
         mvc.perform(get("/items/search?text=drill")
                         .characterEncoding(StandardCharsets.UTF_8)
