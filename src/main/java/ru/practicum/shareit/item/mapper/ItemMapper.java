@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item.mapper;
 
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.Booking;
 import ru.practicum.shareit.booking.BookingStatus;
@@ -10,7 +11,6 @@ import ru.practicum.shareit.item.comments.Comment;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemDtoCommentResponse;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.user.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@Component
 public class ItemMapper {
 
     public ItemDto toItemDto(Item item) {
@@ -30,7 +31,15 @@ public class ItemMapper {
                 .description(item.getDescription())
                 .owner(item.getOwner())
                 .available(item.getAvailable())
+                .requestId(requestId(item))
                 .build();
+    }
+
+    public Long requestId(Item item) {
+        if (item.getRequestId() != null) {
+            return item.getRequestId();
+        }
+        return null;
     }
 
     public List<ItemDto> itemDtoList(List<Item> itemList) {
@@ -39,16 +48,6 @@ public class ItemMapper {
             itemDtos.add(toItemDto(item));
         }
         return itemDtos;
-    }
-
-    public Item toItem(ItemDto dto, User user) {
-        return Item.builder()
-                .id(dto.getId())
-                .name(dto.getName())
-                .description(dto.getDescription())
-                .available(dto.getAvailable())
-                .owner(user)
-                .build();
     }
 
     public ItemDtoCommentResponse toItemResponseDto(Item item, List<Booking> booking, List<Comment> comment) {

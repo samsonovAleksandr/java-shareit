@@ -1,5 +1,6 @@
 package ru.practicum.shareit.booking.service;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -95,7 +96,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public List<BookingDto> getBookingByUserId(State state, long userId, String typeUser) {
+    public List<BookingDto> getBookingByUserId(State state, long userId, String typeUser, int from, int size) {
 
 
         List<Booking> bookings;
@@ -106,9 +107,9 @@ public class BookingServiceImpl implements BookingService {
         switch (state) {
             case ALL:
                 if (isOwner) {
-                    bookings = repository.findAllByOwnerIdOrderByStartDesc(userId);
+                    bookings = repository.findAllByOwnerIdOrderByStartDesc(userId, PageRequest.of(from > 0 ? from / size : 0, size));
                 } else {
-                    bookings = repository.findAllByBookerIdOrderByStartDesc(userId);
+                    bookings = repository.findAllByBookerIdOrderByStartDesc(userId, PageRequest.of(from > 0 ? from / size : 0, size));
                 }
                 break;
             case FUTURE:

@@ -10,7 +10,6 @@ import ru.practicum.shareit.user.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
-import javax.validation.constraints.FutureOrPresent;
 import java.time.LocalDateTime;
 
 @Data
@@ -25,16 +24,15 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "start_date")
-    @FutureOrPresent
     private LocalDateTime start;
     @Column(name = "end_time")
     @Future
     private LocalDateTime end;
     @OneToOne
-    @JoinColumn(name = "item_id")
+    @JoinColumn(name = "item_id", referencedColumnName = "id")
     private Item item;
     @ManyToOne
-    @JoinColumn(name = "booker_id")
+    @JoinColumn(name = "booker_id", referencedColumnName = "id")
     private User booker;
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

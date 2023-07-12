@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 public class CommentDto {
 
-    private long id;
+    private Long id;
     @NotBlank
     private String text;
 
