@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import ru.practicum.shareit.booking.dto.BookingDtoItem;
 import ru.practicum.shareit.item.comments.Comment;
 import ru.practicum.shareit.request.ItemRequest;
-import ru.practicum.shareit.user.User;
+import ru.practicum.shareit.user.dto.User;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

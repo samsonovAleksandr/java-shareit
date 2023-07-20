@@ -52,25 +52,13 @@ public class UserControllerTest {
 
     @Test
     public void shouldAdUserPostWhenFailName() throws Exception {
-        User user = new User(2, "", "user@user.com");
+        User user = new User(2, "", "user111@user.com");
         String jsonUser = objectMapper.writeValueAsString(user);
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonUser))
-                .andExpect(status().is4xxClientError());
-    }
-
-
-    @Test
-    public void shouldAdUserPostWhenFailEmail() throws Exception {
-        User user = new User(2, "user", "");
-        String jsonUser = objectMapper.writeValueAsString(user);
-
-        mockMvc.perform(post("/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonUser))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isOk());
     }
 
 

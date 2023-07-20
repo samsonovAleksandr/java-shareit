@@ -69,7 +69,7 @@ public class RequestControllerTest {
                         .header("X-Sharer-User-Id", 1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(item)))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isOk());
     }
 
 

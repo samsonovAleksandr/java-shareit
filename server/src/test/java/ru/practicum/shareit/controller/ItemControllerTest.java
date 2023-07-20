@@ -96,41 +96,6 @@ public class ItemControllerTest {
                 .andExpect(status().is4xxClientError());
     }
 
-    @Test
-    public void shouldItemWithoutAvailable() throws Exception {
-        Item item = new Item(2, "Drill", "Simple drill", null, user, null);
-        String jsonItem = objectMapper.writeValueAsString(item);
-
-        mvc.perform(post("/items")
-                        .header("X-Sharer-User-Id", 2)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonItem))
-                .andExpect(status().is4xxClientError());
-    }
-
-    @Test
-    public void shouldItemWitEmptyName() throws Exception {
-        Item item = new Item(2, "", "Simple drill", true, user, null);
-        String jsonItem = objectMapper.writeValueAsString(item);
-
-        mvc.perform(post("/items")
-                        .header("X-Sharer-User-Id", 2)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonItem))
-                .andExpect(status().is4xxClientError());
-    }
-
-    @Test
-    public void shouldItemWitEmptyDescription() throws Exception {
-        Item item = new Item(2, "Drill", "", true, user, null);
-        String jsonItem = objectMapper.writeValueAsString(item);
-
-        mvc.perform(post("/items")
-                        .header("X-Sharer-User-Id", 2)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonItem))
-                .andExpect(status().is4xxClientError());
-    }
 
     @Test
     public void shouldItemUpdateWithoutXSharerUserId() throws Exception {

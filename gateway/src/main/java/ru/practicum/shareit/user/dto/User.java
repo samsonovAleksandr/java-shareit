@@ -1,4 +1,4 @@
-package ru.practicum.shareit.user;
+package ru.practicum.shareit.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,20 +14,15 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "users")
 @NoArgsConstructor
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private long id;
     @NotBlank
-    @Column(name = "name")
     private String name;
     @Email(message = "Email is not valid")
     @NotNull
     @NotEmpty(message = "Email cannot be empty")
-    @Column(name = "email", unique = true)
     private String email;
 
 }

@@ -25,6 +25,7 @@ public class BookingClient extends BaseClient {
                         .build()
         );
     }
+
     public ResponseEntity<Object> getById(long userId, long bookingId) {
         return get("/" + bookingId, userId);
     }
