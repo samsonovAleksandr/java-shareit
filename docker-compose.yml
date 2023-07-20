@@ -30,4 +30,4 @@ services:
     environment:
       - POSTGRES_DB=shareit
         - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=110294
+        - POSTGRES_PASSWORD=aimroot
