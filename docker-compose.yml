@@ -21,9 +21,8 @@ services:
       - db
     environment:
         - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
-        - SPRING_DATASOURCE_USERNAME=postgres
-        - SPRING_DATASOURCE_PASSWORD=password
-
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=password
 
   db:
     image: postgres:15-alpine
@@ -33,6 +32,7 @@ services:
     environment:
       - POSTGRES_DB=postgres
         - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=password
+        - POSTGRES_PASSWORD=postgres
       - POSTGRES_HOST_AUTH_METHOD=trust
+
 

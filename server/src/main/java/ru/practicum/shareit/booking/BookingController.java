@@ -1,7 +1,6 @@
 package ru.practicum.shareit.booking;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingRequestDto;
@@ -9,14 +8,12 @@ import ru.practicum.shareit.booking.service.BookingService;
 import ru.practicum.shareit.exeption.ErrorResponse;
 import ru.practicum.shareit.exeption.StateException;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/bookings")
-@Validated
 @ResponseBody
 public class BookingController {
 
@@ -28,7 +25,7 @@ public class BookingController {
     }
 
     @PostMapping
-    public BookingDto postBooking(@RequestBody @Valid BookingRequestDto bookingDto,
+    public BookingDto postBooking(@RequestBody BookingRequestDto bookingDto,
                                   @RequestHeader("X-Sharer-User-Id") long userId) {
         return bookingService.create(bookingDto, userId);
     }

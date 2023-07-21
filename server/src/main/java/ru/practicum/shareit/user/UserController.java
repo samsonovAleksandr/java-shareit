@@ -1,17 +1,14 @@
 package ru.practicum.shareit.user;
 
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.service.UserService;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/users")
-@Validated
 public class UserController {
 
     private final UserService userService;
@@ -29,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto postUser(@RequestBody @Valid User user) {
+    public UserDto postUser(@RequestBody User user) {
         return userMapper.toUser(userService.addUser(user));
     }
 
