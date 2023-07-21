@@ -8,11 +8,14 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>shareit-server</artifactId>
+	<groupId>ru.practicum</groupId>
+	<artifactId>server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-
-	<name>ShareIt Server</name>
-
+	<name>server</name>
+	<description>server</description>
+	<properties>
+		<java.version>11</java.version>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
